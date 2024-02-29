@@ -25,7 +25,7 @@ router.post('/login', (req, res) => {
     });
 });
 
-router.post('/singup', (req, res) => {
+router.post('/signup', (req, res) => {
     const user = req.body;
     Users.push(user)
     fs.writeFileSync('./Data/Users.json', JSON.stringify(Users));

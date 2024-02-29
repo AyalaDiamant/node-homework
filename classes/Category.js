@@ -12,8 +12,6 @@ class Category {
     }
     save(data){
         fs.writeFileSync('./Data/Category.json', JSON.stringify(data));
-    
-
   }
 }
 
