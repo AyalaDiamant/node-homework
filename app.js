@@ -32,7 +32,7 @@ const verifyToken = (req, res, next) => {
     next();
   })
     // res.status(400).send('Invalid or expired token');
-    res.status(400).send('User token does not exist');
+    res.status(400).send('User token does not exist.');
 };
 
 app.use(UserController);
