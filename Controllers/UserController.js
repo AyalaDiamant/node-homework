@@ -20,7 +20,7 @@ router.post('/login', (req, res) => {
             const token = jwt.sign({ id: user.id, userName: user.userName, email: user.email, password: user.password }, 'config.TOKEN_SECRET');
             res.header("auth-token", token).send({ "token": token });
         } else {
-            res.status(400).send('error');
+            res.status(400).send('User does not exist');
         }
     });
 });

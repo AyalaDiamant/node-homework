@@ -20,7 +20,8 @@ app.use((req, res, next) => {
 const verifyToken = (req, res, next) => {
   const token = req.header('auth-token');
   if (!token) {
-    return res.status(401).send('Access denied. Token not provided.');
+    // return res.status(401).send('Access denied. Token not provided.');
+    return res.status(401).send('There is no token.');
   }
 
   const verified = jwt.verify(token, 'config.TOKEN_SECRET');
@@ -30,7 +31,8 @@ const verifyToken = (req, res, next) => {
     if (e.id===verified.id)
     next();
   })
-    res.status(400).send('Invalid or expired token');
+    // res.status(400).send('Invalid or expired token');
+    res.status(400).send('User token does not exist');
 };
 
 app.use(UserController);
