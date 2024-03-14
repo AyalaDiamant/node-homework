@@ -35,9 +35,9 @@ const verifyToken = (req, res, next) => {
     res.status(400).send('User token does not exist.');
 };
 
-app.use(UserController);
+// app.use(UserController);
 
-app.use(verifyToken);
+// app.use(verifyToken);
 
 
 app.use(CategoryController);

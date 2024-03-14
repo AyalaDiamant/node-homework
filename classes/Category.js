@@ -16,3 +16,18 @@ class Category {
 }
 
   module.exports = Category;
+
+
+// const fs = require('fs');
+// const fsPromises = require('fs').promises;
+// const mongoose = require('mongoose');
+
+// const categorySchema = new mongoose.Schema({
+//     Id: Number,
+//     Description: String,
+//     List: Array
+// });
+
+// const Category = mongoose.model('Category', categorySchema);
+
+// module.exports = Category;
