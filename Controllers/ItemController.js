@@ -16,22 +16,24 @@ router.get('/categoryItem/:descreption', (req, res) => {
   const descreption = req.params.descreption;
   category.forEach(e => {
     if (e.Descreption == descreption)
-      res.send(e.List.sort((a,b) => a.name.localeCompare(b.name)));
+      res.send(e.List.sort((a, b) => a.name.localeCompare(b.name)));
   })
 });
-
 
 router.post('/category/:name', (req, res) => {
   const newdetails = req.body;
   console.log(newdetails);
   const params = req.params.name;
-  category.forEach(e => { console.log(e.Descreption); if (e.Descreption === params) { e.List.push(newdetails); console.log('hii') } })
-
-  itemInstance.save(category) ;
-
+  category.forEach(e => {
+    console.log(e.Descreption);
+    if (e.Descreption === params) {
+      e.List.push(newdetails);
+      console.log('hii')
+    }
+  });
+  itemInstance.save(category);
   res.send(newdetails);
 });
-
 
 router.delete('/category/:descreption/:name', (req, res) => {
   const descreption = req.params.descreption;
@@ -46,7 +48,7 @@ router.delete('/category/:descreption/:name', (req, res) => {
       }
     }
   }
-  itemInstance.save(category) ;
+  itemInstance.save(category);
   res.send(`the Item deleted successfully.`)
 });
 
@@ -65,7 +67,7 @@ router.put('/category/:descreption/:name', async (req, res) => {
       }
     }
   }
-  itemInstance.save(category) ;
+  itemInstance.save(category);
   res.send(`the Item update successfully.`)
 });
 

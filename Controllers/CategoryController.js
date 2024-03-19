@@ -1,3 +1,159 @@
+const express = require('express');
+const router = express.Router();
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+
+mongoose.connect('', { // הקוד כאן של ההתחברות של המונגו לא העליתי לגיט מבחינת אבטחה
+    serverSelectionTimeoutMS: 5000,
+    socketTimeoutMS: 45000,
+});
+
+router.use(bodyParser.json())
+router.use(bodyParser.urlencoded({ extended: false }))
+
+const db = mongoose.connection;
+
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.once('open', function () {
+    console.log('Connected to MongoDB');
+});
+
+const categorySchema = new mongoose.Schema({
+    // ID: Number,
+    Description: String,
+    List: Array
+});
+
+const CategoryModel = mongoose.model('Category', categorySchema);
+
+router.get('/Category', async (req, res) => {
+    try {
+        const categories = await CategoryModel.find();
+        res.status(200).send(categories);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error retrieving categories');
+    }
+});
+
+router.post('/Category', async (req, res) => {
+    let data = req.body;
+    console.log(data);
+    try {
+        const newCategory = new CategoryModel({
+            Description: data.Description,
+            List: data.List
+        })
+        await newCategory.save();
+        res.send('Data saved successfully');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error saving category');
+    }
+});
+
+
+router.delete('/Category/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+        const category = await CategoryModel.findByIdAndDelete(id);
+        if (!category) {
+            res.status(404).send('Category not found');
+            return;
+        }
+        // await Category.deleteOne({ Id: req.params.id });
+        res.send('Category deleted successfully');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error deleting category');
+    }
+});
+
+router.put('/Category/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+        const { Description, List } = req.body;
+
+        const updatedCategory = await CategoryModel.findByIdAndUpdate(
+            id,
+            { Description, List },
+            { new: true }
+        );
+
+        if (!updatedCategory) {
+            res.status(404).send('Category not found');
+            return;
+        }
+        res.status(200).send(updatedCategory);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error updating category');
+    }
+});
+
+
+module.exports = router;
+
+// router.put('/Category/:id', async (req, res) => {
+//     // const { Description, List } = req.body;
+//     const updateCategory = req.body;
+//     try {
+//         await Category.findOneAndUpdate({ Id: req.params.id }, { Description, List });
+//         res.send('Category updated successfully');
+//     } catch (err) {
+//         console.error(err);
+//         res.status(500).send('Error updating category');
+//     }
+// });
+
+// router.post('/Category', async (req, res) => {
+//     let data = req.body;
+//     console.log(data);
+//     // try {
+//     //     const newCategory = new CategoryModel(data);
+//     //     await newCategory.save();
+//     //     res.send('Data saved successfully');
+//         try {
+//             const {
+//                 Description,
+//                 List
+//             } = req.body;
+//             const newCategory = new CategoryModel({
+//                 Description,
+//                 List
+//             })
+//             await newCategory.save();
+//         } catch (err) {
+//             console.error(err);
+//             res.status(500).send('Error saving category');
+//         }
+//     });
+
+
+// router.post('/', async (req, res) => {
+//     try {
+//       const { Name,
+//         Phone,
+//         Email,
+//         Job,
+//         Platoon,
+//         DateBeginWork } = req.body;
+//       const newWorker = new WorkerModel({ Name,
+//         Phone,
+//         Email,
+//         Job,
+//         Platoon,
+//         DateBeginWork });
+//       await newWorker.save();
+//       res.status(201).send('Worker added to the database');
+//     } catch (err) {
+//       console.error(err);
+//       res.status(500).send('Error adding worker');
+//     }
+//   });
+
+
+// היה בהתחלה לא יודעת מה זה
 // const express = require('express');
 // const router = express.Router();
 // const bodyParser = require('body-parser')
@@ -58,55 +214,7 @@
 //         res.send('Category added successfully.');
 //     });
 
-
-const express = require('express');
-const router = express.Router();
-const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
-
-mongoose.connect('mongodb://127.0.0.1:27017/Company', {
-    serverSelectionTimeoutMS: 5000,
-    socketTimeoutMS: 45000,
-});
-
-const db = mongoose.connection;
-
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-db.once('open', function () {
-    console.log('Connected to MongoDB');
-});
-
-const categorySchema = new mongoose.Schema({
-    ID: Number,
-    Description: String,
-    List: [{
-        name: String
-    }]
-});
-
-const CategoryModel = mongoose.model('Category', categorySchema);
-
-router.get('/Category', async (req, res) => {
-    try {
-        const categories = await CategoryModel.find();
-        res.status(200).send(categories);
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('Error retrieving categories');
-    }
-});
-
-router.post('/Category', async (req, res) => {
-    let data = req.body;
-    try {
-        const newCategory = new CategoryModel(data);
-        await newCategory.save();
-        res.send('Data saved successfully');
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('Error saving category');
-    }
-});
+// ---
 
 
 
@@ -118,11 +226,6 @@ router.post('/Category', async (req, res) => {
 
 
 
-
-
-
-router.use(bodyParser.json())
-router.use(bodyParser.urlencoded({ extended: false }))
 
 // router.get('/Category', (req, res) => {
 
@@ -131,16 +234,7 @@ router.use(bodyParser.urlencoded({ extended: false }))
 //   // res.status(200).send(Category.sort());
 // });
 
-router.get('/Category/:id', (req, res) => {
-    req.params;
-    const find = Category.find(e => e.ID == req.params.id)
-    if (find) {
-        res.status(200).send(find);
-    }
-    else {
-        res.status(404).send('Category not found😒');
-    }
-});
+
 
 // router.post('/Category', async (req, res) => {
 //   let data = req.body;
@@ -154,55 +248,6 @@ router.get('/Category/:id', (req, res) => {
 // });
 
 
-router.delete('/Category/:id', (req, res) => {
-    const { id } = req.params;
-    for (let i = 0; i < Category.length; i++) {
-        if (Category[i].ID == id) {
-            Category.splice(i, 1)
-        }
-    }
-    categoryInstance.save(Category);
-    res.send('Category deleted successfully.');
-});
-
-
-router.put('/Category/:id', async (req, res) => {
-    let data = req.body;
-    try {
-        await saveToFile2(data);
-        res.send('Data saved successfully');
-    } catch (err) {
-        console.error(err);
-    }
-});
-
-
-async function saveToFile(data) {
-    Category.push(data);
-    try {
-        await fsPromises.writeFile(
-            './Data/Category.json', JSON.stringify(Category), {
-            encoding: "utf8",
-            flag: "w",
-            mode: 0o666
-        });
-        categoryInstance.save(Category);
-    } catch (err) {
-        console.error(err);
-    }
-};
-
-
-async function saveToFile2(data) {
-    for (let i = 0; i < Category.length; i++) {
-        if (Category[i].ID == data.ID) {
-            Category[i].Descreption = data.Descreption;
-        }
-    }
-    categoryInstance.save(Category);
-};
-
-module.exports = router;
 
 // const express = require('express');
 // const router = express.Router();
@@ -281,8 +326,66 @@ module.exports = router;
 // module.exports = router;
 
 
+// דברים שעבדו לפני המונגו
+
+// router.get('/Category/:id', (req, res) => {
+//     req.params;
+//     const find = Category.find(e => e.ID == req.params.id)
+//     if (find) {
+//         res.status(200).send(find);
+//     }
+//     else {
+//         res.status(404).send('Category not found😒');
+//     }
+// });
+
+// router.delete('/Category/:id', (req, res) => {
+//     const { id } = req.params;
+//     for (let i = 0; i < Category.length; i++) {
+//         if (Category[i].ID == id) {
+//             Category.splice(i, 1)
+//         }
+//     }
+//     categoryInstance.save(Category);
+//     res.send('Category deleted successfully.');
+// });
 
 
+// router.put('/Category/:id', async (req, res) => {
+//     let data = req.body;
+//     try {
+//         await saveToFile2(data);
+//         res.send('Data saved successfully');
+//     } catch (err) {
+//         console.error(err);
+//     }
+// });
+
+
+// async function saveToFile(data) {
+//     Category.push(data);
+//     try {
+//         await fsPromises.writeFile(
+//             './Data/Category.json', JSON.stringify(Category), {
+//             encoding: "utf8",
+//             flag: "w",
+//             mode: 0o666
+//         });
+//         categoryInstance.save(Category);
+//     } catch (err) {
+//         console.error(err);
+//     }
+// };
+
+
+// async function saveToFile2(data) {
+//     for (let i = 0; i < Category.length; i++) {
+//         if (Category[i].ID == data.ID) {
+//             Category[i].Descreption = data.Descreption;
+//         }
+//     }
+//     categoryInstance.save(Category);
+// };
 
 
 
