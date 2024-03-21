@@ -40,7 +40,7 @@ router.delete('/CategoryItem/:id/:name', async (req, res) => {
     }
   }
   category.save();
-  res.send(`the Item deleted successfully.`)
+  res.send(`the Item deleted successfully!`)
 });
 
 router.put('/CategoryItem/:id/:name', async (req, res) => {
