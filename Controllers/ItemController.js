@@ -6,10 +6,6 @@ const CategoryModel = require('../Models/Category.model')
 router.use(bodyParser.json())
 router.use(bodyParser.urlencoded({ extended: false }))
 
-
-router.use(bodyParser.json())
-router.use(bodyParser.urlencoded({ extended: false }))
-
 router.get('/CategoryItem/:id', async (req, res) => {
   const id = req.params.id;
   console.log(id)
