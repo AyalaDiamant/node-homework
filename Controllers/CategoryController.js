@@ -13,6 +13,7 @@ router.get('/Category', async (req, res) => {
     }
 });
 
+
 router.get('/Category/:id', async (req, res) => {
     try {
         const id = req.params.id;

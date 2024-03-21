@@ -43,6 +43,7 @@ router.delete('/CategoryItem/:id/:name', async (req, res) => {
   res.send(`the Item deleted successfully!`)
 });
 
+
 router.put('/CategoryItem/:id/:name', async (req, res) => {
   console.log(CategoryModel);
   const id = req.params.id;
