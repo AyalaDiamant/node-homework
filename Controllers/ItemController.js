@@ -1,73 +1,65 @@
 const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser')
-const fs = require('fs');
-// const fsPromises = require('fs').promises;
-const category = require('../Data/Category.json');
-const ItemClass = require('../classes/Item')
-
-const itemInstance = new ItemClass();
+const CategoryModel = require('../Models/Category.model')
 
 router.use(bodyParser.json())
 router.use(bodyParser.urlencoded({ extended: false }))
 
 
-router.get('/categoryItem/:descreption', (req, res) => {
-  const descreption = req.params.descreption;
-  category.forEach(e => {
-    if (e.Descreption == descreption)
-      res.send(e.List.sort((a, b) => a.name.localeCompare(b.name)));
-  })
+router.use(bodyParser.json())
+router.use(bodyParser.urlencoded({ extended: false }))
+
+router.get('/CategoryItem/:id', async (req, res) => {
+  const id = req.params.id;
+  console.log(id)
+  console.log(CategoryModel);
+  const category = await CategoryModel.findById(id);
+  if (!category) {
+    res.status(404).send('Category not found');
+    return;
+  }
+  res.send(category);
 });
 
-router.post('/category/:name', (req, res) => {
-  const newdetails = req.body;
-  console.log(newdetails);
-  const params = req.params.name;
-  category.forEach(e => {
-    console.log(e.Descreption);
-    if (e.Descreption === params) {
-      e.List.push(newdetails);
-      console.log('hii')
-    }
-  });
-  itemInstance.save(category);
-  res.send(newdetails);
+router.post('/CategoryItem/:id', async (req, res) => {
+  const data = req.body;
+  const id = req.params.id;
+  const newItem = data;
+  console.log(newItem);
+  const category = await CategoryModel.findById(id);
+  category.List.push(newItem)
+  category.save();
+  res.send(newItem);
 });
 
-router.delete('/category/:descreption/:name', (req, res) => {
-  const descreption = req.params.descreption;
+router.delete('/CategoryItem/:id/:name', async (req, res) => {
+  const id = req.params.id;
   const name = req.params.name;
-  console.log(descreption + " " + name);
-  for (let i = 0; i < category.length; i++) {
-    if (category[i].Descreption == descreption) {
-      for (let j = 0; j < category[i].List.length; j++) {
-        if (category[i].List[j].name === name) {
-          category[i].List.splice(j, 1);
-        }
-      }
+  const category = await CategoryModel.findById(id);
+  const list = category.List;
+  for (let j = 0; j < list.length; j++) {
+    if (list[j].name === name) {
+      list.splice(j, 1);
     }
   }
-  itemInstance.save(category);
+  category.save();
   res.send(`the Item deleted successfully.`)
 });
 
-
-router.put('/category/:descreption/:name', async (req, res) => {
-  const descreption = req.params.descreption;
+router.put('/CategoryItem/:id/:name', async (req, res) => {
+  console.log(CategoryModel);
+  const id = req.params.id;
   const name = req.params.name;
-  console.log(descreption + " " + name);
   let data = req.body;
-  for (let i = 0; i < category.length; i++) {
-    if (category[i].Descreption === descreption) {
-      for (let j = 0; j < category[i].List.length; j++) {
-        if (category[i].List[j].name == name) {
-          category[i].List[j] = data;
-        }
-      }
+  const category = await CategoryModel.findById(id);
+  const list = category.List;
+  for (let j = 0; j < list.length; j++) {
+    if (list[j].name === name) {
+      list[j] = data;
     }
   }
-  itemInstance.save(category);
+  category.save();
   res.send(`the Item update successfully.`)
 });
 
