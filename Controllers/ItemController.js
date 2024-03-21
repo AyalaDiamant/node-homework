@@ -56,7 +56,7 @@ router.put('/CategoryItem/:id/:name', async (req, res) => {
     }
   }
   category.save();
-  res.send(`the Item update successfully.`)
+  res.send(`the Item update successfully!`)
 });
 
 module.exports = router;
