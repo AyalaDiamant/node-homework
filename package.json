@@ -17,5 +17,9 @@
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^4.17.2",
     "mongoose": "^8.2.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "eslint-config-google": "^0.14.0"
   }
 }

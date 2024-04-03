@@ -1,12 +1,10 @@
 
 const mongoose = require('mongoose');
 
-
-mongoose.connect('', { // הקוד כאן של ההתחברות של המונגו לא העליתי לגיט מבחינת אבטחה
+mongoose.connect('mongodb://127.0.0.1:27017/Company', { // הקוד כאן של ההתחברות של המונגו לא העליתי לגיט מבחינת אבטחה
     serverSelectionTimeoutMS: 5000,
     socketTimeoutMS: 45000,
 });
-
 
 const db = mongoose.connection;
 

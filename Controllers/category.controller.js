@@ -69,7 +69,6 @@ const updatedCategory = ('', async (req, res) => {
             { Description, List },
             { new: true }
         );
-
         if (!updatedCategory) {
             res.status(404).send('Category not found...');
             return;
