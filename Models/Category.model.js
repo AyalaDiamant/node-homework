@@ -2,7 +2,6 @@
 const mongoose = require('mongoose');
 require('dotenv').config();
 
-
 mongoose.connect(process.env.DB_CONNECTION_STRING, {
   serverSelectionTimeoutMS: 5000,
   socketTimeoutMS: 45000,
@@ -19,7 +18,6 @@ const categorySchema = new mongoose.Schema({
   Description: String,
   List: Array,
 }, {versionKey: false});
-
 
 const CategoryModel = mongoose.model('Category', categorySchema);
 

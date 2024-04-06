@@ -35,7 +35,7 @@ const addCategory = ('', async (req, res) => {
       List: data.List,
     });
     await newCategory.save();
-    res.send('Data saved successfully');
+    res.send('Data saved successfully!');
   } catch (err) {
     console.error(err);
     res.status(500).send('Error saving category');

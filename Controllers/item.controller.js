@@ -1,4 +1,3 @@
-// const bodyParser = require('body-parser')
 const CategoryModel = require('../Models/category.model');
 
 

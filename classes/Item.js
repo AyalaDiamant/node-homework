@@ -2,7 +2,6 @@ const fs = require('fs');
 const fsPromises = require('fs').promises;
 const CategoryJson = require('../Data/Category.json');
 
-
 class Item {
   constructor(Id, Descreption, List) {
     this.Id = Id;

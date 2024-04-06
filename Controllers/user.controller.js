@@ -1,9 +1,7 @@
-// const express = require('express');
-// const router = express.Router();
 const Users = require('../Data/Users.json');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-// const bodyParser = require('body-parser')
+
 
 const login = ('', (req, res) => {
   const userName = req.body.userName;
