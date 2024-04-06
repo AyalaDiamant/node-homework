@@ -1,5 +1,5 @@
 const express = require('express');
-var cors = require('cors');
+const cors = require('cors');
 const jwt = require('jsonwebtoken');
 
 const corsMiddelwar = (cors());
@@ -9,14 +9,13 @@ const reqMiddelware =((req, res, next) => {
   next();
 });
 
-
 // const verifyToken = (req, res, next) => {
 //     const token = req.header('auth-token');
 //     if (!token) {
 //       // return res.status(401).send('Access denied. Token not provided.');
 //       return res.status(401).send('There is no token.');
 //     }
-  
+
 //     const verified = jwt.verify(token, 'config.TOKEN_SECRET');
 //     req.user = verified;
 //     console.log(verified)
@@ -28,9 +27,8 @@ const reqMiddelware =((req, res, next) => {
 //       res.status(400).send('User token does not exist.');
 //   };
 
-
 module.exports = {
-    corsMiddelwar, 
-    reqMiddelware, 
-    // verifyToken
+  corsMiddelwar,
+  reqMiddelware,
+  // verifyToken
 };

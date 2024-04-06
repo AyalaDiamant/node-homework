@@ -4,18 +4,17 @@ const CategoryJson = require('../Data/Category.json');
 
 
 class Category {
-    
-    constructor(Id, Descreption,List) {
-      this.Id = Id;
-      this.Descreption = Descreption;
-      this.List = List;
-    }
-    save(data){
-        fs.writeFileSync('./Data/Category.json', JSON.stringify(data));
+  constructor(Id, Descreption, List) {
+    this.Id = Id;
+    this.Descreption = Descreption;
+    this.List = List;
+  }
+  save(data) {
+    fs.writeFileSync('./Data/Category.json', JSON.stringify(data));
   }
 }
 
-  module.exports = Category;
+module.exports = Category;
 
 
 // const fs = require('fs');
