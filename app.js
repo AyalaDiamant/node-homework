@@ -3,9 +3,13 @@ const express = require('express');
 const app = express();
 require('dotenv').config();
 const port = process.env.PORT;
+
+// ---- routers
 const userRouter = require('./Routes/user.router.js');
 const categoryRouter = require('./Routes/category.router.js');
 const itemRouter = require('./Routes/item.router.js');
+
+// ---- middelwars
 const middelware = require('./Middlewares/my-middlewar.middelware.js');
 
 // app.use(middelware)
